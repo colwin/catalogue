@@ -44,10 +44,10 @@ func init() {
 }
 
 func main() {
-	ddagent.tracer.Start(
-        tracer.WithEnv("prod"),
-        tracer.WithService("catalogue"),
-        tracer.WithServiceVersion("v1"),
+	ddagent.Start(
+        ddagent.WithEnv("prod"),
+        ddagent.WithService("catalogue"),
+        ddagent.WithServiceVersion("v1"),
     )
 	var (
 		port   = flag.String("port", "80", "Port to bind HTTP listener") // TODO(pb): should be -addr, default ":80"
@@ -163,5 +163,5 @@ func main() {
 	}()
 
 	logger.Log("exit", <-errc)
-	defer ddagent.tracer.Stop()
+	defer ddagent.Stop()
 }
