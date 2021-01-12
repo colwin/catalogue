@@ -24,7 +24,7 @@ import (
 	"github.com/weaveworks/common/middleware"
 	"golang.org/x/net/context"
 
-	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
+	ddagent "gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 )
 
 const (
@@ -44,7 +44,7 @@ func init() {
 }
 
 func main() {
-	tracer.Start(
+	ddagent.tracer.Start(
         tracer.WithEnv("prod"),
         tracer.WithService("catalogue"),
         tracer.WithServiceVersion("v1"),
@@ -163,5 +163,5 @@ func main() {
 	}()
 
 	logger.Log("exit", <-errc)
-	defer tracer.Stop()
+	defer ddagent.tracer.Stop()
 }
