@@ -23,6 +23,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/weaveworks/common/middleware"
 	"golang.org/x/net/context"
+
+	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 )
 
 const (
@@ -42,6 +44,11 @@ func init() {
 }
 
 func main() {
+	tracer.Start(
+        tracer.WithEnv("prod"),
+        tracer.WithService("catalogue"),
+        tracer.WithServiceVersion("v1"),
+    )
 	var (
 		port   = flag.String("port", "80", "Port to bind HTTP listener") // TODO(pb): should be -addr, default ":80"
 		images = flag.String("images", "./images/", "Image path")
@@ -156,4 +163,5 @@ func main() {
 	}()
 
 	logger.Log("exit", <-errc)
+	defer tracer.Stop()
 }
