@@ -8,12 +8,12 @@ import (
 	//"strings"
 	"syscall"
 
-	//"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log"
 	stdopentracing "github.com/opentracing/opentracing-go"
 	//zipkin "github.com/openzipkin/zipkin-go-opentracing"
 
 	//"net"
-	//"net/http"
+	"net/http"
 
 	"path/filepath"
 
@@ -49,7 +49,7 @@ func main() {
 		port   = flag.String("port", "80", "Port to bind HTTP listener") // TODO(pb): should be -addr, default ":80"
 		images = flag.String("images", "./images/", "Image path")
 		dsn    = flag.String("DSN", "catalogue_user:default_password@tcp(catalogue-db:3306)/socksdb", "Data Source Name: [username[:password]@][protocol[(address)]]/dbname")
-		zip    = flag.String("zipkin", os.Getenv("ZIPKIN"), "Zipkin address")
+		//zip    = flag.String("zipkin", os.Getenv("ZIPKIN"), "Zipkin address")
 	)
 	flag.Parse()
 
