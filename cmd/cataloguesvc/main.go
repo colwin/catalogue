@@ -76,7 +76,13 @@ func main() {
 	var tracer stdopentracing.Tracer
 	{
 		if *zip == "" {
-			tracer = stdopentracing.NoopTracer{}
+			//tracer = stdopentracing.NoopTracer{}
+			tracer = ddopentrace.New(
+				ddagent.WithService("catalogue"), 
+				ddagent.WithEnv("production"), 
+				ddagent.WithServiceVersion("v1"),
+			)
+			defer ddagent.Stop()
 		} else {
 			// Find service local IP.
 			conn, err := net.Dial("udp", "8.8.8.8:80")
@@ -105,12 +111,6 @@ func main() {
 				os.Exit(1)
 			}
 		}
-		tracer := ddopentrace.New(
-			ddagent.WithService("catalogue"), 
-			ddagent.WithEnv("production"), 
-			ddagent.WithServiceVersion("v1"),
-		)
-		defer ddagent.Stop()
 		//stdopentracing.SetGlobalTracer(tracer)
 		stdopentracing.InitGlobalTracer(tracer)
 	}
