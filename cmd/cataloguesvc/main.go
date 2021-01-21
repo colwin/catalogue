@@ -105,14 +105,14 @@ func main() {
 				os.Exit(1)
 			}
 		}
-		ddagent.Start(
-			ddagent.WithEnv("production"),
-			ddagent.WithService("catalogue"),
+		tracer := ddopentrace.New(
+			ddagent.WithService("catalogue"), 
+			ddagent.WithEnv("production"), 
 			ddagent.WithServiceVersion("v1"),
 		)
-		t := ddopentrace.New(ddagent.WithService("catalogue"), ddagent.WithEnv("production"), ddagent.WithServiceVersion("v1"))
 		defer ddagent.Stop()
-		stdopentracing.InitGlobalTracer(t)
+		//stdopentracing.SetGlobalTracer(tracer)
+		stdopentracing.InitGlobalTracer(tracer)
 	}
 
 	// Data domain.
