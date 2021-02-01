@@ -79,4 +79,6 @@ INSERT INTO sock_tag VALUES ("837ab141-399e-4c1f-9abc-bace40296bac", "3");
 
 
 
-
+CREATE USER IF NOT EXISTS 'datadog' IDENTIFIED BY 'datadogmetrics';
+GRANT REPLICATION CLIENT ON *.* TO 'datadog' WITH MAX_USER_CONNECTIONS 5;
+GRANT PROCESS ON *.* TO 'datadog';
